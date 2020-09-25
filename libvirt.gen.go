@@ -119,8 +119,6 @@ type OptDomain []Domain
 type OptNetwork []Network
 // OptNwfilter is libvirt's remote_nwfilter
 type OptNwfilter []Nwfilter
-// OptNwfilterBinding is libvirt's remote_nwfilter_binding
-type OptNwfilterBinding []NwfilterBinding
 // OptStoragePool is libvirt's remote_storage_pool
 type OptStoragePool []StoragePool
 // OptStorageVol is libvirt's remote_storage_vol
@@ -158,12 +156,6 @@ type Network struct {
 type Nwfilter struct {
 	Name string
 	UUID UUID
-}
-
-// NwfilterBinding is libvirt's remote_nonnull_nwfilter_binding
-type NwfilterBinding struct {
-	Portdev string
-	Filtername string
 }
 
 // Interface is libvirt's remote_nonnull_interface
@@ -549,7 +541,7 @@ type DomainBlockStatsFlagsRet struct {
 // DomainInterfaceStatsArgs is libvirt's remote_domain_interface_stats_args
 type DomainInterfaceStatsArgs struct {
 	Dom Domain
-	Device string
+	Path string
 }
 
 // DomainInterfaceStatsRet is libvirt's remote_domain_interface_stats_ret
@@ -1205,14 +1197,6 @@ type DomainDelIothreadArgs struct {
 	Flags DomainModificationImpact
 }
 
-// DomainSetIothreadParamsArgs is libvirt's remote_domain_set_iothread_params_args
-type DomainSetIothreadParamsArgs struct {
-	Dom Domain
-	IothreadID uint32
-	Params []TypedParam
-	Flags uint32
-}
-
 // DomainGetSecurityLabelArgs is libvirt's remote_domain_get_security_label_args
 type DomainGetSecurityLabelArgs struct {
 	Dom Domain
@@ -1272,13 +1256,6 @@ type DomainUpdateDeviceFlagsArgs struct {
 	Dom Domain
 	XML string
 	Flags DomainDeviceModifyFlags
-}
-
-// DomainDetachDeviceAliasArgs is libvirt's remote_domain_detach_device_alias_args
-type DomainDetachDeviceAliasArgs struct {
-	Dom Domain
-	Alias string
-	Flags uint32
 }
 
 // DomainGetAutostartArgs is libvirt's remote_domain_get_autostart_args
@@ -1427,7 +1404,7 @@ type DomainGetCPUStatsRet struct {
 // DomainGetHostnameArgs is libvirt's remote_domain_get_hostname_args
 type DomainGetHostnameArgs struct {
 	Dom Domain
-	Flags uint32
+	Flags DomainGetHostnameFlags
 }
 
 // DomainGetHostnameRet is libvirt's remote_domain_get_hostname_ret
@@ -1846,16 +1823,6 @@ type StoragePoolLookupByVolumeRet struct {
 	Pool StoragePool
 }
 
-// StoragePoolLookupByTargetPathArgs is libvirt's remote_storage_pool_lookup_by_target_path_args
-type StoragePoolLookupByTargetPathArgs struct {
-	Path string
-}
-
-// StoragePoolLookupByTargetPathRet is libvirt's remote_storage_pool_lookup_by_target_path_ret
-type StoragePoolLookupByTargetPathRet struct {
-	Pool StoragePool
-}
-
 // StoragePoolCreateXMLArgs is libvirt's remote_storage_pool_create_xml_args
 type StoragePoolCreateXMLArgs struct {
 	XML string
@@ -2164,7 +2131,7 @@ type NodeDeviceGetParentArgs struct {
 
 // NodeDeviceGetParentRet is libvirt's remote_node_device_get_parent_ret
 type NodeDeviceGetParentRet struct {
-	ParentName OptString
+	Parent OptString
 }
 
 // NodeDeviceNumOfCapsArgs is libvirt's remote_node_device_num_of_caps_args
@@ -2507,17 +2474,6 @@ type DomainAbortJobArgs struct {
 	Dom Domain
 }
 
-// DomainMigrateGetMaxDowntimeArgs is libvirt's remote_domain_migrate_get_max_downtime_args
-type DomainMigrateGetMaxDowntimeArgs struct {
-	Dom Domain
-	Flags uint32
-}
-
-// DomainMigrateGetMaxDowntimeRet is libvirt's remote_domain_migrate_get_max_downtime_ret
-type DomainMigrateGetMaxDowntimeRet struct {
-	Downtime uint64
-}
-
 // DomainMigrateSetMaxDowntimeArgs is libvirt's remote_domain_migrate_set_max_downtime_args
 type DomainMigrateSetMaxDowntimeArgs struct {
 	Dom Domain
@@ -2791,24 +2747,6 @@ type DomainHasManagedSaveImageRet struct {
 type DomainManagedSaveRemoveArgs struct {
 	Dom Domain
 	Flags uint32
-}
-
-// DomainManagedSaveGetXMLDescArgs is libvirt's remote_domain_managed_save_get_xml_desc_args
-type DomainManagedSaveGetXMLDescArgs struct {
-	Dom Domain
-	Flags DomainXMLFlags
-}
-
-// DomainManagedSaveGetXMLDescRet is libvirt's remote_domain_managed_save_get_xml_desc_ret
-type DomainManagedSaveGetXMLDescRet struct {
-	XML string
-}
-
-// DomainManagedSaveDefineXMLArgs is libvirt's remote_domain_managed_save_define_xml_args
-type DomainManagedSaveDefineXMLArgs struct {
-	Dom Domain
-	Dxml OptString
-	Flags DomainSaveRestoreFlags
 }
 
 // DomainSnapshotCreateXMLArgs is libvirt's remote_domain_snapshot_create_xml_args
@@ -3824,116 +3762,6 @@ type DomainSetBlockThresholdArgs struct {
 	Dev string
 	Threshold uint64
 	Flags uint32
-}
-
-// DomainSetLifecycleActionArgs is libvirt's remote_domain_set_lifecycle_action_args
-type DomainSetLifecycleActionArgs struct {
-	Dom Domain
-	Type uint32
-	Action uint32
-	Flags DomainModificationImpact
-}
-
-// ConnectCompareHypervisorCPUArgs is libvirt's remote_connect_compare_hypervisor_cpu_args
-type ConnectCompareHypervisorCPUArgs struct {
-	Emulator OptString
-	Arch OptString
-	Machine OptString
-	Virttype OptString
-	XMLCPU string
-	Flags uint32
-}
-
-// ConnectCompareHypervisorCPURet is libvirt's remote_connect_compare_hypervisor_cpu_ret
-type ConnectCompareHypervisorCPURet struct {
-	Result int32
-}
-
-// ConnectBaselineHypervisorCPUArgs is libvirt's remote_connect_baseline_hypervisor_cpu_args
-type ConnectBaselineHypervisorCPUArgs struct {
-	Emulator OptString
-	Arch OptString
-	Machine OptString
-	Virttype OptString
-	XMLCPUs []string
-	Flags uint32
-}
-
-// ConnectBaselineHypervisorCPURet is libvirt's remote_connect_baseline_hypervisor_cpu_ret
-type ConnectBaselineHypervisorCPURet struct {
-	CPU string
-}
-
-// NodeGetSevInfoArgs is libvirt's remote_node_get_sev_info_args
-type NodeGetSevInfoArgs struct {
-	Nparams int32
-	Flags uint32
-}
-
-// NodeGetSevInfoRet is libvirt's remote_node_get_sev_info_ret
-type NodeGetSevInfoRet struct {
-	Params []TypedParam
-	Nparams int32
-}
-
-// DomainGetLaunchSecurityInfoArgs is libvirt's remote_domain_get_launch_security_info_args
-type DomainGetLaunchSecurityInfoArgs struct {
-	Dom Domain
-	Flags uint32
-}
-
-// DomainGetLaunchSecurityInfoRet is libvirt's remote_domain_get_launch_security_info_ret
-type DomainGetLaunchSecurityInfoRet struct {
-	Params []TypedParam
-}
-
-// NwfilterBindingLookupByPortDevArgs is libvirt's remote_nwfilter_binding_lookup_by_port_dev_args
-type NwfilterBindingLookupByPortDevArgs struct {
-	Name string
-}
-
-// NwfilterBindingLookupByPortDevRet is libvirt's remote_nwfilter_binding_lookup_by_port_dev_ret
-type NwfilterBindingLookupByPortDevRet struct {
-	OptNwfilter NwfilterBinding
-}
-
-// NwfilterBindingCreateXMLArgs is libvirt's remote_nwfilter_binding_create_xml_args
-type NwfilterBindingCreateXMLArgs struct {
-	XML string
-	Flags uint32
-}
-
-// NwfilterBindingCreateXMLRet is libvirt's remote_nwfilter_binding_create_xml_ret
-type NwfilterBindingCreateXMLRet struct {
-	OptNwfilter NwfilterBinding
-}
-
-// NwfilterBindingDeleteArgs is libvirt's remote_nwfilter_binding_delete_args
-type NwfilterBindingDeleteArgs struct {
-	OptNwfilter NwfilterBinding
-}
-
-// NwfilterBindingGetXMLDescArgs is libvirt's remote_nwfilter_binding_get_xml_desc_args
-type NwfilterBindingGetXMLDescArgs struct {
-	OptNwfilter NwfilterBinding
-	Flags uint32
-}
-
-// NwfilterBindingGetXMLDescRet is libvirt's remote_nwfilter_binding_get_xml_desc_ret
-type NwfilterBindingGetXMLDescRet struct {
-	XML string
-}
-
-// ConnectListAllNwfilterBindingsArgs is libvirt's remote_connect_list_all_nwfilter_bindings_args
-type ConnectListAllNwfilterBindingsArgs struct {
-	NeedResults int32
-	Flags uint32
-}
-
-// ConnectListAllNwfilterBindingsRet is libvirt's remote_connect_list_all_nwfilter_bindings_ret
-type ConnectListAllNwfilterBindingsRet struct {
-	Bindings []NwfilterBinding
-	Ret uint32
 }
 
 
@@ -5858,12 +5686,12 @@ func (l *Libvirt) DomainBlockStats(Dom Domain, Path string) (rRdReq int64, rRdBy
 }
 
 // DomainInterfaceStats is the go wrapper for REMOTE_PROC_DOMAIN_INTERFACE_STATS.
-func (l *Libvirt) DomainInterfaceStats(Dom Domain, Device string) (rRxBytes int64, rRxPackets int64, rRxErrs int64, rRxDrop int64, rTxBytes int64, rTxPackets int64, rTxErrs int64, rTxDrop int64, err error) {
+func (l *Libvirt) DomainInterfaceStats(Dom Domain, Path string) (rRxBytes int64, rRxPackets int64, rRxErrs int64, rRxDrop int64, rTxBytes int64, rTxPackets int64, rTxErrs int64, rTxDrop int64, err error) {
 	var buf []byte
 
 	args := DomainInterfaceStatsArgs {
 		Dom: Dom,
-		Device: Device,
+		Path: Path,
 	}
 
 	buf, err = encode(&args)
@@ -7444,7 +7272,7 @@ func (l *Libvirt) NodeDeviceGetXMLDesc(Name string, Flags uint32) (rXML string, 
 }
 
 // NodeDeviceGetParent is the go wrapper for REMOTE_PROC_NODE_DEVICE_GET_PARENT.
-func (l *Libvirt) NodeDeviceGetParent(Name string) (rParentName OptString, err error) {
+func (l *Libvirt) NodeDeviceGetParent(Name string) (rParent OptString, err error) {
 	var buf []byte
 
 	args := NodeDeviceGetParentArgs {
@@ -7467,8 +7295,8 @@ func (l *Libvirt) NodeDeviceGetParent(Name string) (rParentName OptString, err e
 	ct := map[string]xdr.TypeDecoder{"libvirt.TypedParam": tpd}
 	rdr := bytes.NewReader(r.Payload)
 	dec := xdr.NewDecoderCustomTypes(rdr, 0, ct)
-	// ParentName: OptString
-	_, err = dec.Decode(&rParentName)
+	// Parent: OptString
+	_, err = dec.Decode(&rParent)
 	if err != nil {
 		return
 	}
@@ -12205,7 +12033,7 @@ func (l *Libvirt) DomainEventBalloonChange() (err error) {
 }
 
 // DomainGetHostname is the go wrapper for REMOTE_PROC_DOMAIN_GET_HOSTNAME.
-func (l *Libvirt) DomainGetHostname(Dom Domain, Flags uint32) (rHostname string, err error) {
+func (l *Libvirt) DomainGetHostname(Dom Domain, Flags DomainGetHostnameFlags) (rHostname string, err error) {
 	var buf []byte
 
 	args := DomainGetHostnameArgs {
@@ -15019,516 +14847,6 @@ func (l *Libvirt) DomainSetBlockThreshold(Dom Domain, Dev string, Threshold uint
 
 
 	_, err = l.requestStream(386, constants.Program, buf, nil, nil)
-	if err != nil {
-		return
-	}
-
-	return
-}
-
-// DomainMigrateGetMaxDowntime is the go wrapper for REMOTE_PROC_DOMAIN_MIGRATE_GET_MAX_DOWNTIME.
-func (l *Libvirt) DomainMigrateGetMaxDowntime(Dom Domain, Flags uint32) (rDowntime uint64, err error) {
-	var buf []byte
-
-	args := DomainMigrateGetMaxDowntimeArgs {
-		Dom: Dom,
-		Flags: Flags,
-	}
-
-	buf, err = encode(&args)
-	if err != nil {
-		return
-	}
-
-	var r response
-	r, err = l.requestStream(387, constants.Program, buf, nil, nil)
-	if err != nil {
-		return
-	}
-
-	// Return value unmarshaling
-	tpd := typedParamDecoder{}
-	ct := map[string]xdr.TypeDecoder{"libvirt.TypedParam": tpd}
-	rdr := bytes.NewReader(r.Payload)
-	dec := xdr.NewDecoderCustomTypes(rdr, 0, ct)
-	// Downtime: uint64
-	_, err = dec.Decode(&rDowntime)
-	if err != nil {
-		return
-	}
-
-	return
-}
-
-// DomainManagedSaveGetXMLDesc is the go wrapper for REMOTE_PROC_DOMAIN_MANAGED_SAVE_GET_XML_DESC.
-func (l *Libvirt) DomainManagedSaveGetXMLDesc(Dom Domain, Flags DomainXMLFlags) (rXML string, err error) {
-	var buf []byte
-
-	args := DomainManagedSaveGetXMLDescArgs {
-		Dom: Dom,
-		Flags: Flags,
-	}
-
-	buf, err = encode(&args)
-	if err != nil {
-		return
-	}
-
-	var r response
-	r, err = l.requestStream(388, constants.Program, buf, nil, nil)
-	if err != nil {
-		return
-	}
-
-	// Return value unmarshaling
-	tpd := typedParamDecoder{}
-	ct := map[string]xdr.TypeDecoder{"libvirt.TypedParam": tpd}
-	rdr := bytes.NewReader(r.Payload)
-	dec := xdr.NewDecoderCustomTypes(rdr, 0, ct)
-	// XML: string
-	_, err = dec.Decode(&rXML)
-	if err != nil {
-		return
-	}
-
-	return
-}
-
-// DomainManagedSaveDefineXML is the go wrapper for REMOTE_PROC_DOMAIN_MANAGED_SAVE_DEFINE_XML.
-func (l *Libvirt) DomainManagedSaveDefineXML(Dom Domain, Dxml OptString, Flags DomainSaveRestoreFlags) (err error) {
-	var buf []byte
-
-	args := DomainManagedSaveDefineXMLArgs {
-		Dom: Dom,
-		Dxml: Dxml,
-		Flags: Flags,
-	}
-
-	buf, err = encode(&args)
-	if err != nil {
-		return
-	}
-
-
-	_, err = l.requestStream(389, constants.Program, buf, nil, nil)
-	if err != nil {
-		return
-	}
-
-	return
-}
-
-// DomainSetLifecycleAction is the go wrapper for REMOTE_PROC_DOMAIN_SET_LIFECYCLE_ACTION.
-func (l *Libvirt) DomainSetLifecycleAction(Dom Domain, Type uint32, Action uint32, Flags DomainModificationImpact) (err error) {
-	var buf []byte
-
-	args := DomainSetLifecycleActionArgs {
-		Dom: Dom,
-		Type: Type,
-		Action: Action,
-		Flags: Flags,
-	}
-
-	buf, err = encode(&args)
-	if err != nil {
-		return
-	}
-
-
-	_, err = l.requestStream(390, constants.Program, buf, nil, nil)
-	if err != nil {
-		return
-	}
-
-	return
-}
-
-// StoragePoolLookupByTargetPath is the go wrapper for REMOTE_PROC_STORAGE_POOL_LOOKUP_BY_TARGET_PATH.
-func (l *Libvirt) StoragePoolLookupByTargetPath(Path string) (rPool StoragePool, err error) {
-	var buf []byte
-
-	args := StoragePoolLookupByTargetPathArgs {
-		Path: Path,
-	}
-
-	buf, err = encode(&args)
-	if err != nil {
-		return
-	}
-
-	var r response
-	r, err = l.requestStream(391, constants.Program, buf, nil, nil)
-	if err != nil {
-		return
-	}
-
-	// Return value unmarshaling
-	tpd := typedParamDecoder{}
-	ct := map[string]xdr.TypeDecoder{"libvirt.TypedParam": tpd}
-	rdr := bytes.NewReader(r.Payload)
-	dec := xdr.NewDecoderCustomTypes(rdr, 0, ct)
-	// Pool: StoragePool
-	_, err = dec.Decode(&rPool)
-	if err != nil {
-		return
-	}
-
-	return
-}
-
-// DomainDetachDeviceAlias is the go wrapper for REMOTE_PROC_DOMAIN_DETACH_DEVICE_ALIAS.
-func (l *Libvirt) DomainDetachDeviceAlias(Dom Domain, Alias string, Flags uint32) (err error) {
-	var buf []byte
-
-	args := DomainDetachDeviceAliasArgs {
-		Dom: Dom,
-		Alias: Alias,
-		Flags: Flags,
-	}
-
-	buf, err = encode(&args)
-	if err != nil {
-		return
-	}
-
-
-	_, err = l.requestStream(392, constants.Program, buf, nil, nil)
-	if err != nil {
-		return
-	}
-
-	return
-}
-
-// ConnectCompareHypervisorCPU is the go wrapper for REMOTE_PROC_CONNECT_COMPARE_HYPERVISOR_CPU.
-func (l *Libvirt) ConnectCompareHypervisorCPU(Emulator OptString, Arch OptString, Machine OptString, Virttype OptString, XMLCPU string, Flags uint32) (rResult int32, err error) {
-	var buf []byte
-
-	args := ConnectCompareHypervisorCPUArgs {
-		Emulator: Emulator,
-		Arch: Arch,
-		Machine: Machine,
-		Virttype: Virttype,
-		XMLCPU: XMLCPU,
-		Flags: Flags,
-	}
-
-	buf, err = encode(&args)
-	if err != nil {
-		return
-	}
-
-	var r response
-	r, err = l.requestStream(393, constants.Program, buf, nil, nil)
-	if err != nil {
-		return
-	}
-
-	// Return value unmarshaling
-	tpd := typedParamDecoder{}
-	ct := map[string]xdr.TypeDecoder{"libvirt.TypedParam": tpd}
-	rdr := bytes.NewReader(r.Payload)
-	dec := xdr.NewDecoderCustomTypes(rdr, 0, ct)
-	// Result: int32
-	_, err = dec.Decode(&rResult)
-	if err != nil {
-		return
-	}
-
-	return
-}
-
-// ConnectBaselineHypervisorCPU is the go wrapper for REMOTE_PROC_CONNECT_BASELINE_HYPERVISOR_CPU.
-func (l *Libvirt) ConnectBaselineHypervisorCPU(Emulator OptString, Arch OptString, Machine OptString, Virttype OptString, XMLCPUs []string, Flags uint32) (rCPU string, err error) {
-	var buf []byte
-
-	args := ConnectBaselineHypervisorCPUArgs {
-		Emulator: Emulator,
-		Arch: Arch,
-		Machine: Machine,
-		Virttype: Virttype,
-		XMLCPUs: XMLCPUs,
-		Flags: Flags,
-	}
-
-	buf, err = encode(&args)
-	if err != nil {
-		return
-	}
-
-	var r response
-	r, err = l.requestStream(394, constants.Program, buf, nil, nil)
-	if err != nil {
-		return
-	}
-
-	// Return value unmarshaling
-	tpd := typedParamDecoder{}
-	ct := map[string]xdr.TypeDecoder{"libvirt.TypedParam": tpd}
-	rdr := bytes.NewReader(r.Payload)
-	dec := xdr.NewDecoderCustomTypes(rdr, 0, ct)
-	// CPU: string
-	_, err = dec.Decode(&rCPU)
-	if err != nil {
-		return
-	}
-
-	return
-}
-
-// NodeGetSevInfo is the go wrapper for REMOTE_PROC_NODE_GET_SEV_INFO.
-func (l *Libvirt) NodeGetSevInfo(Nparams int32, Flags uint32) (rParams []TypedParam, rNparams int32, err error) {
-	var buf []byte
-
-	args := NodeGetSevInfoArgs {
-		Nparams: Nparams,
-		Flags: Flags,
-	}
-
-	buf, err = encode(&args)
-	if err != nil {
-		return
-	}
-
-	var r response
-	r, err = l.requestStream(395, constants.Program, buf, nil, nil)
-	if err != nil {
-		return
-	}
-
-	// Return value unmarshaling
-	tpd := typedParamDecoder{}
-	ct := map[string]xdr.TypeDecoder{"libvirt.TypedParam": tpd}
-	rdr := bytes.NewReader(r.Payload)
-	dec := xdr.NewDecoderCustomTypes(rdr, 0, ct)
-	// Params: []TypedParam
-	_, err = dec.Decode(&rParams)
-	if err != nil {
-		return
-	}
-	// Nparams: int32
-	_, err = dec.Decode(&rNparams)
-	if err != nil {
-		return
-	}
-
-	return
-}
-
-// DomainGetLaunchSecurityInfo is the go wrapper for REMOTE_PROC_DOMAIN_GET_LAUNCH_SECURITY_INFO.
-func (l *Libvirt) DomainGetLaunchSecurityInfo(Dom Domain, Flags uint32) (rParams []TypedParam, err error) {
-	var buf []byte
-
-	args := DomainGetLaunchSecurityInfoArgs {
-		Dom: Dom,
-		Flags: Flags,
-	}
-
-	buf, err = encode(&args)
-	if err != nil {
-		return
-	}
-
-	var r response
-	r, err = l.requestStream(396, constants.Program, buf, nil, nil)
-	if err != nil {
-		return
-	}
-
-	// Return value unmarshaling
-	tpd := typedParamDecoder{}
-	ct := map[string]xdr.TypeDecoder{"libvirt.TypedParam": tpd}
-	rdr := bytes.NewReader(r.Payload)
-	dec := xdr.NewDecoderCustomTypes(rdr, 0, ct)
-	// Params: []TypedParam
-	_, err = dec.Decode(&rParams)
-	if err != nil {
-		return
-	}
-
-	return
-}
-
-// NwfilterBindingLookupByPortDev is the go wrapper for REMOTE_PROC_NWFILTER_BINDING_LOOKUP_BY_PORT_DEV.
-func (l *Libvirt) NwfilterBindingLookupByPortDev(Name string) (rOptNwfilter NwfilterBinding, err error) {
-	var buf []byte
-
-	args := NwfilterBindingLookupByPortDevArgs {
-		Name: Name,
-	}
-
-	buf, err = encode(&args)
-	if err != nil {
-		return
-	}
-
-	var r response
-	r, err = l.requestStream(397, constants.Program, buf, nil, nil)
-	if err != nil {
-		return
-	}
-
-	// Return value unmarshaling
-	tpd := typedParamDecoder{}
-	ct := map[string]xdr.TypeDecoder{"libvirt.TypedParam": tpd}
-	rdr := bytes.NewReader(r.Payload)
-	dec := xdr.NewDecoderCustomTypes(rdr, 0, ct)
-	// OptNwfilter: NwfilterBinding
-	_, err = dec.Decode(&rOptNwfilter)
-	if err != nil {
-		return
-	}
-
-	return
-}
-
-// NwfilterBindingGetXMLDesc is the go wrapper for REMOTE_PROC_NWFILTER_BINDING_GET_XML_DESC.
-func (l *Libvirt) NwfilterBindingGetXMLDesc(OptNwfilter NwfilterBinding, Flags uint32) (rXML string, err error) {
-	var buf []byte
-
-	args := NwfilterBindingGetXMLDescArgs {
-		OptNwfilter: OptNwfilter,
-		Flags: Flags,
-	}
-
-	buf, err = encode(&args)
-	if err != nil {
-		return
-	}
-
-	var r response
-	r, err = l.requestStream(398, constants.Program, buf, nil, nil)
-	if err != nil {
-		return
-	}
-
-	// Return value unmarshaling
-	tpd := typedParamDecoder{}
-	ct := map[string]xdr.TypeDecoder{"libvirt.TypedParam": tpd}
-	rdr := bytes.NewReader(r.Payload)
-	dec := xdr.NewDecoderCustomTypes(rdr, 0, ct)
-	// XML: string
-	_, err = dec.Decode(&rXML)
-	if err != nil {
-		return
-	}
-
-	return
-}
-
-// NwfilterBindingCreateXML is the go wrapper for REMOTE_PROC_NWFILTER_BINDING_CREATE_XML.
-func (l *Libvirt) NwfilterBindingCreateXML(XML string, Flags uint32) (rOptNwfilter NwfilterBinding, err error) {
-	var buf []byte
-
-	args := NwfilterBindingCreateXMLArgs {
-		XML: XML,
-		Flags: Flags,
-	}
-
-	buf, err = encode(&args)
-	if err != nil {
-		return
-	}
-
-	var r response
-	r, err = l.requestStream(399, constants.Program, buf, nil, nil)
-	if err != nil {
-		return
-	}
-
-	// Return value unmarshaling
-	tpd := typedParamDecoder{}
-	ct := map[string]xdr.TypeDecoder{"libvirt.TypedParam": tpd}
-	rdr := bytes.NewReader(r.Payload)
-	dec := xdr.NewDecoderCustomTypes(rdr, 0, ct)
-	// OptNwfilter: NwfilterBinding
-	_, err = dec.Decode(&rOptNwfilter)
-	if err != nil {
-		return
-	}
-
-	return
-}
-
-// NwfilterBindingDelete is the go wrapper for REMOTE_PROC_NWFILTER_BINDING_DELETE.
-func (l *Libvirt) NwfilterBindingDelete(OptNwfilter NwfilterBinding) (err error) {
-	var buf []byte
-
-	args := NwfilterBindingDeleteArgs {
-		OptNwfilter: OptNwfilter,
-	}
-
-	buf, err = encode(&args)
-	if err != nil {
-		return
-	}
-
-
-	_, err = l.requestStream(400, constants.Program, buf, nil, nil)
-	if err != nil {
-		return
-	}
-
-	return
-}
-
-// ConnectListAllNwfilterBindings is the go wrapper for REMOTE_PROC_CONNECT_LIST_ALL_NWFILTER_BINDINGS.
-func (l *Libvirt) ConnectListAllNwfilterBindings(NeedResults int32, Flags uint32) (rBindings []NwfilterBinding, rRet uint32, err error) {
-	var buf []byte
-
-	args := ConnectListAllNwfilterBindingsArgs {
-		NeedResults: NeedResults,
-		Flags: Flags,
-	}
-
-	buf, err = encode(&args)
-	if err != nil {
-		return
-	}
-
-	var r response
-	r, err = l.requestStream(401, constants.Program, buf, nil, nil)
-	if err != nil {
-		return
-	}
-
-	// Return value unmarshaling
-	tpd := typedParamDecoder{}
-	ct := map[string]xdr.TypeDecoder{"libvirt.TypedParam": tpd}
-	rdr := bytes.NewReader(r.Payload)
-	dec := xdr.NewDecoderCustomTypes(rdr, 0, ct)
-	// Bindings: []NwfilterBinding
-	_, err = dec.Decode(&rBindings)
-	if err != nil {
-		return
-	}
-	// Ret: uint32
-	_, err = dec.Decode(&rRet)
-	if err != nil {
-		return
-	}
-
-	return
-}
-
-// DomainSetIothreadParams is the go wrapper for REMOTE_PROC_DOMAIN_SET_IOTHREAD_PARAMS.
-func (l *Libvirt) DomainSetIothreadParams(Dom Domain, IothreadID uint32, Params []TypedParam, Flags uint32) (err error) {
-	var buf []byte
-
-	args := DomainSetIothreadParamsArgs {
-		Dom: Dom,
-		IothreadID: IothreadID,
-		Params: Params,
-		Flags: Flags,
-	}
-
-	buf, err = encode(&args)
-	if err != nil {
-		return
-	}
-
-
-	_, err = l.requestStream(402, constants.Program, buf, nil, nil)
 	if err != nil {
 		return
 	}

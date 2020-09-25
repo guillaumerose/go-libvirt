@@ -834,38 +834,6 @@ const (
 	ProcDomainEventBlockThreshold = 385
 	// ProcDomainSetBlockThreshold is libvirt's REMOTE_PROC_DOMAIN_SET_BLOCK_THRESHOLD
 	ProcDomainSetBlockThreshold = 386
-	// ProcDomainMigrateGetMaxDowntime is libvirt's REMOTE_PROC_DOMAIN_MIGRATE_GET_MAX_DOWNTIME
-	ProcDomainMigrateGetMaxDowntime = 387
-	// ProcDomainManagedSaveGetXMLDesc is libvirt's REMOTE_PROC_DOMAIN_MANAGED_SAVE_GET_XML_DESC
-	ProcDomainManagedSaveGetXMLDesc = 388
-	// ProcDomainManagedSaveDefineXML is libvirt's REMOTE_PROC_DOMAIN_MANAGED_SAVE_DEFINE_XML
-	ProcDomainManagedSaveDefineXML = 389
-	// ProcDomainSetLifecycleAction is libvirt's REMOTE_PROC_DOMAIN_SET_LIFECYCLE_ACTION
-	ProcDomainSetLifecycleAction = 390
-	// ProcStoragePoolLookupByTargetPath is libvirt's REMOTE_PROC_STORAGE_POOL_LOOKUP_BY_TARGET_PATH
-	ProcStoragePoolLookupByTargetPath = 391
-	// ProcDomainDetachDeviceAlias is libvirt's REMOTE_PROC_DOMAIN_DETACH_DEVICE_ALIAS
-	ProcDomainDetachDeviceAlias = 392
-	// ProcConnectCompareHypervisorCPU is libvirt's REMOTE_PROC_CONNECT_COMPARE_HYPERVISOR_CPU
-	ProcConnectCompareHypervisorCPU = 393
-	// ProcConnectBaselineHypervisorCPU is libvirt's REMOTE_PROC_CONNECT_BASELINE_HYPERVISOR_CPU
-	ProcConnectBaselineHypervisorCPU = 394
-	// ProcNodeGetSevInfo is libvirt's REMOTE_PROC_NODE_GET_SEV_INFO
-	ProcNodeGetSevInfo = 395
-	// ProcDomainGetLaunchSecurityInfo is libvirt's REMOTE_PROC_DOMAIN_GET_LAUNCH_SECURITY_INFO
-	ProcDomainGetLaunchSecurityInfo = 396
-	// ProcNwfilterBindingLookupByPortDev is libvirt's REMOTE_PROC_NWFILTER_BINDING_LOOKUP_BY_PORT_DEV
-	ProcNwfilterBindingLookupByPortDev = 397
-	// ProcNwfilterBindingGetXMLDesc is libvirt's REMOTE_PROC_NWFILTER_BINDING_GET_XML_DESC
-	ProcNwfilterBindingGetXMLDesc = 398
-	// ProcNwfilterBindingCreateXML is libvirt's REMOTE_PROC_NWFILTER_BINDING_CREATE_XML
-	ProcNwfilterBindingCreateXML = 399
-	// ProcNwfilterBindingDelete is libvirt's REMOTE_PROC_NWFILTER_BINDING_DELETE
-	ProcNwfilterBindingDelete = 400
-	// ProcConnectListAllNwfilterBindings is libvirt's REMOTE_PROC_CONNECT_LIST_ALL_NWFILTER_BINDINGS
-	ProcConnectListAllNwfilterBindings = 401
-	// ProcDomainSetIothreadParams is libvirt's REMOTE_PROC_DOMAIN_SET_IOTHREAD_PARAMS
-	ProcDomainSetIothreadParams = 402
 
 
 	// From consts:
@@ -888,7 +856,7 @@ const (
 	// InterfaceListMax is libvirt's REMOTE_INTERFACE_LIST_MAX
 	InterfaceListMax = 16384
 	// StoragePoolListMax is libvirt's REMOTE_STORAGE_POOL_LIST_MAX
-	StoragePoolListMax = 16384
+	StoragePoolListMax = 4096
 	// StorageVolListMax is libvirt's REMOTE_STORAGE_VOL_LIST_MAX
 	StorageVolListMax = 16384
 	// NodeDeviceListMax is libvirt's REMOTE_NODE_DEVICE_LIST_MAX
@@ -896,9 +864,7 @@ const (
 	// NodeDeviceCapsListMax is libvirt's REMOTE_NODE_DEVICE_CAPS_LIST_MAX
 	NodeDeviceCapsListMax = 65536
 	// NwfilterListMax is libvirt's REMOTE_NWFILTER_LIST_MAX
-	NwfilterListMax = 16384
-	// NwfilterBindingListMax is libvirt's REMOTE_NWFILTER_BINDING_LIST_MAX
-	NwfilterBindingListMax = 16384
+	NwfilterListMax = 1024
 	// DomainSchedulerParametersMax is libvirt's REMOTE_DOMAIN_SCHEDULER_PARAMETERS_MAX
 	DomainSchedulerParametersMax = 16
 	// DomainBlkioParametersMax is libvirt's REMOTE_DOMAIN_BLKIO_PARAMETERS_MAX
@@ -928,7 +894,7 @@ const (
 	// DomainMemoryStatsMax is libvirt's REMOTE_DOMAIN_MEMORY_STATS_MAX
 	DomainMemoryStatsMax = 1024
 	// DomainSnapshotListMax is libvirt's REMOTE_DOMAIN_SNAPSHOT_LIST_MAX
-	DomainSnapshotListMax = 16384
+	DomainSnapshotListMax = 1024
 	// DomainBlockPeekBufferMax is libvirt's REMOTE_DOMAIN_BLOCK_PEEK_BUFFER_MAX
 	DomainBlockPeekBufferMax = 4194304
 	// DomainMemoryPeekBufferMax is libvirt's REMOTE_DOMAIN_MEMORY_PEEK_BUFFER_MAX
@@ -977,12 +943,6 @@ const (
 	DomainIPAddrMax = 2048
 	// DomainGuestVcpuParamsMax is libvirt's REMOTE_DOMAIN_GUEST_VCPU_PARAMS_MAX
 	DomainGuestVcpuParamsMax = 64
-	// DomainIothreadParamsMax is libvirt's REMOTE_DOMAIN_IOTHREAD_PARAMS_MAX
-	DomainIothreadParamsMax = 64
-	// NodeSevInfoMax is libvirt's REMOTE_NODE_SEV_INFO_MAX
-	NodeSevInfoMax = 64
-	// DomainLaunchSecurityInfoParamsMax is libvirt's REMOTE_DOMAIN_LAUNCH_SECURITY_INFO_PARAMS_MAX
-	DomainLaunchSecurityInfoParamsMax = 64
 	// DomainEventGraphicsIdentityMax is libvirt's REMOTE_DOMAIN_EVENT_GRAPHICS_IDENTITY_MAX
 	DomainEventGraphicsIdentityMax = 20
 	// Program is libvirt's REMOTE_PROGRAM
